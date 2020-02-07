@@ -32,10 +32,12 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 from alexa import data
+from ddog import query_ddog_cpu
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+app = Flask(__name__)
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -68,7 +70,7 @@ def get_resolved_value(request, slot_name):
         logger.info(str(e))
         return None
 
-class HelloWorldIntentHandler(AbstractRequestHandler):
+class GetMetricsIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
 
     def can_handle(self, handler_input):
@@ -81,9 +83,10 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
         # speak_output = _(data.HELLO_MSG)
         metric = get_resolved_value(handler_input.request_envelope.request, "metric")
         if metric == 'cpu':
+            cpu = query_ddog_cpu()
             return (
                 handler_input.response_builder
-                .speak("Robots love computers")
+                .speak("Your average cpu right now is {}".format(cpu))
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
                 .response
             )
@@ -216,11 +219,14 @@ class LocalizationInterceptor(AbstractRequestInterceptor):
 # payloads to the handlers above. Make sure any new handlers or interceptors you've
 # defined are included below. The order matters - they're processed top to bottom.
 
+@app.route('/ddog/webhook')
+def alert(payload):
+    return payload
 
 sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
-sb.add_request_handler(HelloWorldIntentHandler())
+sb.add_request_handler(GetMetricsIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
@@ -231,7 +237,7 @@ sb.add_global_request_interceptor(LocalizationInterceptor())
 
 sb.add_exception_handler(CatchAllExceptionHandler())
 
-app = Flask(__name__)
+
 skill_response = SkillAdapter(
     skill=sb.create(), skill_id="amzn1.ask.skill.1fd6a485-84ff-406c-aba1-75007ce3df11", app=app)
 
