@@ -13,13 +13,12 @@ will result in a response along the lines of:
 
 > Your average CPU right now is 4%
 
-![gif](https://p-WjFZ4qYb.b3.n0.cdn.getcloudapp.com/items/ApurK2pm/Screen+Recording+2020-02-10+at+04.54+PM.gif?v=d2286954f5d85deb882998caaabbb7cc)
+<iframe src="https://share.getcloudapp.com/ApurK2pm?branding=true&amp;embed=true&amp;title=true" width="575" height="400" style="border:none" frameborder="0" allowtransparency="true" allowfullscreen="true">              </iframe>
 
 # Datadog Webhook integration
 
 I created a endpoint that also utilized Datadogs Webhook [integration](https://docs.datadoghq.com/integrations/webhooks/#overview)
 
-```
 
 # Additional Configuration
 
