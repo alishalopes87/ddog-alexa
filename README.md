@@ -13,7 +13,7 @@ will result in a response along the lines of:
 
 > Your average CPU right now is 4%
 
-<iframe src="https://share.getcloudapp.com/ApurK2pm?branding=true&amp;embed=true&amp;title=true" width="575" height="400" style="border:none" frameborder="0" allowtransparency="true" allowfullscreen="true">              </iframe>
+![gif](https://share.getcloudapp.com/7KuRemDB)
 
 # Datadog Webhook integration
 
